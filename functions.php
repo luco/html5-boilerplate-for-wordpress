@@ -30,17 +30,7 @@ function mytheme_comment($comment, $args, $depth) {
 <?php
 }
 
-automatic_feed_links();
-
-// Widgetized Sidebar HTML5 Markup
-if ( function_exists('register_sidebar') ) {
-	register_sidebar(array(
-		'before_widget' => '<section>',
-		'after_widget' => '</section>',
-		'before_title' => '<h2 class="widgettitle">',
-		'after_title' => '</h2>',
-	));
-}
+add_theme_support( 'post-thumbnails' );
 
 // Custom Functions for CSS/Javascript Versioning
 $GLOBALS["TEMPLATE_URL"] = get_bloginfo('template_url')."/";
