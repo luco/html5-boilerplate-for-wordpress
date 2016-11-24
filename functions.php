@@ -31,6 +31,7 @@ function mytheme_comment($comment, $args, $depth) {
 }
 
 add_theme_support( 'post-thumbnails' );
+add_theme_support( 'menus' );
 
 // Custom Functions for CSS/Javascript Versioning
 $GLOBALS["TEMPLATE_URL"] = get_bloginfo('template_url')."/";
