@@ -12,29 +12,20 @@
   <head>
     <meta charset="utf-8">
 
-    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
-       Remove this if you use the .htaccess -->
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
     <title><?php wp_title('&laquo;', true, 'right'); ?> <?php bloginfo('name'); ?></title>
     
     <meta name="description" content="">
     <meta name="author" content="">
-    
     <meta name="viewport" content="width=device-width">
+     <?php versioned_javascript($GLOBALS["TEMPLATE_RELATIVE_URL"]."js/modernizr.js") ?>
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <?php versioned_stylesheet($GLOBALS["TEMPLATE_RELATIVE_URL"]."html5-boilerplate/css/normalize.css") ?>
-    <?php versioned_stylesheet($GLOBALS["TEMPLATE_RELATIVE_URL"]."html5-boilerplate/css/main.css") ?>
-    
-    <!-- Wordpress Templates require a style.css in theme root directory -->
     <?php versioned_stylesheet($GLOBALS["TEMPLATE_RELATIVE_URL"]."style.css") ?>
-    
-    <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-    <?php versioned_javascript($GLOBALS["TEMPLATE_RELATIVE_URL"]."html5-boilerplate/js/vendor/modernizr-2.6.1.min.js") ?>
+    <?php versioned_stylesheet($GLOBALS["TEMPLATE_RELATIVE_URL"]."scss/base.css") ?>
+   
 
-    <!-- Wordpress Head Items -->
     <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 
     <?php wp_head(); ?>

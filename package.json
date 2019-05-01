@@ -1,0 +1,14 @@
+{
+  "name": "template",
+  "version": "0.1.0",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-consolidate": "^0.2.0",
+    "gulp-iconfont": "^10.0.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "underscore": "^1.9.1"
+  }
+}
