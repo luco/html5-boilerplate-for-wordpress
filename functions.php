@@ -4,6 +4,8 @@
  * @subpackage HTML5_Boilerplate
  */
 
+remove_action( 'shutdown', 'wp_ob_end_flush_all', 1 );
+
 // Custom HTML5 Comment Markup
 function mytheme_comment($comment, $args, $depth) {
    $GLOBALS['comment'] = $comment; ?>
