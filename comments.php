@@ -2,6 +2,7 @@
 /**
  * @package WordPress
  * @subpackage HTML5_Boilerplate
+Amazing project
  */
 
 // Do not delete these lines
@@ -40,7 +41,7 @@
 
    <?php else : // comments are closed ?>
     <!-- If comments are closed. -->
-    <p class="nocomments">Comments are closed.</p>
+    <p class="nocomments">Comments are closed temporary.</p>
 
   <?php endif; ?>
 <?php endif; ?>
@@ -97,7 +98,7 @@
 
   </form>
 
-  <?php endif; // If registration required and not logged in ?>
+  <?php endif; // If registration required or not logged in ?>
 </section>
 
 <?php endif; // if you delete this the sky will fall on your head ?>
