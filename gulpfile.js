@@ -1,76 +1,99 @@
 // REQUIRES
 
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var livereload = require('gulp-livereload');
-var consolidate = require('gulp-consolidate')
-var iconfont = require('gulp-iconfont');
-var rename = require('gulp-rename');
-var sourcemaps = require('gulp-sourcemaps');
+const { watch, series, parallel, src, dest } = require('gulp');
+const livereload = require('gulp-livereload');
+const sourcemaps = require('gulp-sourcemaps');
+const sass = require('gulp-sass');
+const consolidate = require('gulp-consolidate');
+const rename = require('gulp-rename');
+const iconfont = require('gulp-iconfont');
 
+//
 // VARS
+//
 
-var baseScss = 'scss/base.scss';
-var scssFiles = 'scss/*.scss';
-var cssDest = 'scss';
+const paths = {
+  php: '**/**/*.php',
+  scss: 'scss/**/**/*.scss',
+  scssBase: 'scss/base.scss',
+  scssDest: 'scss',
+  icons: 'scss/icons',
+};
 
-
-// Options for development
-var sassDevOptions = {
+const sassOptions = {
   outputStyle: 'compressed'
 }
 
-gulp.task('sass', function() {
-  return gulp.src(baseScss)
+
+//
+// GENERATORS
+//
+
+function generateSass(done) {
+  return src(paths.scssBase)
     .pipe(sourcemaps.init())
-    .pipe(sass(sassDevOptions).on('error', sass.logError))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(cssDest))
-    .pipe(livereload());
-});
+    .pipe(
+      sass(sassOptions)
+      .on('error', sass.logError)
+    )
+    .pipe(sourcemaps.write('./'))
+    .pipe(dest(paths.scssDest));
+}
 
-
-
-// ICONS
-
-gulp.task('iconfont', function() {
-  return gulp.src('scss/icons/src/*.svg')
-          .pipe(iconfont({
+function generateIcons() {
+    return src(paths.icons+'/src/*.svg')
+    .pipe(iconfont({
               fontName: 'icons',
               formats: ['ttf', 'eot', 'woff', 'woff2'],
-              appendCodepoints: true,
-              appendUnicode: false,
+              prependUnicode: false,
               normalize: true,
               fontHeight: 1000,
               centerHorizontally: true
-          }))
-          .on('glyphs', function (glyphs, options) {
-              gulp.src('scss/icons/src/template.css')
-                  .pipe(consolidate('underscore', {
-                      glyphs: glyphs,
-                      fontName: options.fontName,
-                      fontDate: new Date().getTime()
-                  }))
-                  .pipe(rename('icons.css'))
-                  .pipe(gulp.dest('scss/icons/'));
-          })
-          .pipe(gulp.dest('scss/icons/'));
-});
+    }))
+    .on('glyphs', function (glyphs, options) {
+            src(paths.icons+'/src/template.css')
+            .pipe(consolidate('underscore', {
+                glyphs: glyphs,
+                fontName: options.fontName,
+                fontDate: new Date().getTime()
+            }))
+            .pipe(rename('icons.css'))
+            .pipe(dest(paths.icons));
+    })
+    .pipe(dest(paths.icons));
+}
 
 
-// WATCH
+// FUNCTIONS
 
-gulp.task('watch', function() {
-  livereload.listen();
-  gulp.watch(scssFiles, ['sass']);
-  gulp.watch('scss/icons/**/*.svg', ['svgWatcher']);
-  gulp.watch('*.php', livereload.reload);
-  gulp.watch('templates/*.php', livereload.reload);
-});
+function generateFiles(done) {
+  return series(generateSass, generateIcons)(done);
+}
 
-// DEFAULT
+function watchFiles() {
 
-gulp.task('default', ['sass', 'iconfont', 'watch']);
-gulp.task('svgWatcher', ['iconfont'], function() {
-    gulp.start('sass');
-});
+    livereload.listen();
+
+    // Watch SCSS    
+    watch(paths.scss)
+    .on('change', series(generateSass, (done) => {
+        livereload.reload();
+        done();
+    }));
+
+    // Watch Icons
+    watch(paths.icons+'/src/*.svg')
+    .on('change', series(generateIcons, generateSass, (done) => {
+        livereload.reload();
+        done();
+    }));
+
+    // Watch PHP
+    watch(paths.php).on('change', () => {
+           livereload.reload();
+    });
+
+}
+
+
+exports.default = series(generateFiles, watchFiles);
