@@ -1,16 +1,27 @@
 {
-  "name": "template",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "name": "sitebase",
+  "version": "0.1.0",
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-consolidate": "^0.2.0",
     "gulp-iconfont": "^10.0.3",
     "gulp-livereload": "^4.0.2",
     "gulp-rename": "^1.4.0",
-    "gulp-sass": "^4.0.1",
+    "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^2.6.4",
     "underscore": "^1.9.1"
+  },
+  "options": {
+    "paths": {
+      "root": "./",
+      "scss": "scss",
+      "css": "scss"
+    }
+  },
+  "dependencies": {
+    "autoprefixer": "^9.6.1",
+    "browser-sync": "^2.29.1",
+    "page-flip": "^2.0.7",
+    "sass": "^1.62.0"
   }
 }
