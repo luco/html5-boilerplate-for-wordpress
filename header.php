@@ -20,14 +20,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width">
-     <?php versioned_javascript($GLOBALS["TEMPLATE_RELATIVE_URL"]."js/modernizr.js") ?>
-
     <?php versioned_stylesheet($GLOBALS["TEMPLATE_RELATIVE_URL"]."style.css") ?>
-    <?php versioned_stylesheet($GLOBALS["TEMPLATE_RELATIVE_URL"]."scss/base.css") ?>
-   
-
     <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
-
     <?php wp_head(); ?>
 
 </head>
@@ -38,6 +32,5 @@
 
   <div id="container">
     <header role="banner">
-      <h1><a href="<?php echo get_option('home'); ?>/"><?php bloginfo('name'); ?></a></h1>
-      <p class="description"><?php bloginfo('description'); ?></p>
+
     </header>
