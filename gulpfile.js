@@ -1,40 +1,24 @@
 // REQUIRES
 
+const fs = require("fs");
 const { watch, series, parallel, src, dest } = require("gulp");
-const livereload = require('gulp-livereload');
+const livereload = require("gulp-livereload");
 const sourcemaps = require("gulp-sourcemaps");
-const sass = require("gulp-sass")(require('sass'));
+const sass = require("gulp-sass")(require("sass"));
 const consolidate = require("gulp-consolidate");
 const rename = require("gulp-rename");
 const iconfont = require("gulp-iconfont");
 
-//
-// VARS
-//
-
 const paths = {
-	php: "**/**/*.php",
-	scss: "scss/**/**/*.scss",
-	scssBase: "scss/base.scss",
-	scssDest: "scss",
+	php: ["./*.php", "./template-parts/**/*.php", "./inc/**/*.php"],
 	icons: "scss/icons",
 };
-
-const sassOptions = {
-	outputStyle: "compressed",
-};
-
 //
 // GENERATORS
 //
 
 function generateSass(done) {
-	return src(paths.scssBase)
-		.pipe(sourcemaps.init())
-		.pipe(sass(sassOptions).on("error", sass.logError))
-		.pipe(sourcemaps.write("./"))
-		.pipe(dest(paths.scssDest))
-		.pipe(livereload());
+	return src("scss/*.css").pipe(livereload());
 }
 
 function generateIcons() {
@@ -66,16 +50,17 @@ function generateIcons() {
 
 // FUNCTIONS
 
+
+
 function generateFiles(done) {
 	return series(generateSass, generateIcons)(done);
 }
 
-
 function watchFiles() {
 	livereload.listen();
 
-	// Watch SCSS
-	watch(paths.scss).on(
+	// Watch SCSS (exclude main.css to avoid re-triggering after addTimestamp writes to it)
+	watch(["scss/*.css"]).on(
 		"change",
 		series(generateSass, (done) => {
 			done();
@@ -91,10 +76,11 @@ function watchFiles() {
 	);
 
 	// Watch PHP
-	watch(paths.php).on("change", () => {
+	watch(paths.php, {
+		ignored: "/node_modules/**",
+	}).on("change", () => {
 		livereload.reload();
 	});
 }
 
 exports.default = series(generateFiles, watchFiles);
-
