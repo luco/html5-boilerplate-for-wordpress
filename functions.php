@@ -60,3 +60,22 @@ function versioned_resource($relative_url){
 
   return $relative_url.$file_version;
 }
+
+
+function enqueue_styles()
+{
+  $scss_dir = get_template_directory() . '/scss/';
+  $scss_url = get_template_directory_uri() . '/scss/';
+  // Files that must load in this order first
+  $first = ['./icons/icons.css', 'normalize.css', 'vendor.css', 'defaults.css'];
+  $all_files = array_map('basename', glob($scss_dir . '*.css'));
+  $rest = array_diff($all_files, $first);
+  $ordered = array_merge($first, $rest);
+  foreach ($ordered as $filename) {
+    $file_path = $scss_dir . $filename;
+    $handle = 'scs-' . basename($filename, '.css');
+    $version = file_exists($file_path) ? filemtime($file_path) : null;
+    wp_enqueue_style($handle, $scss_url . $filename, [], $version);
+  }
+}
+add_action('wp_enqueue_scripts', 'enqueue_styles');
