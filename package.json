@@ -2,7 +2,8 @@
   "name": "sitebase",
   "version": "0.1.0",
   "devDependencies": {
-    "gulp": "^4.0.2",
+    "browser-sync": "^2.29.3",
+    "gulp": "4.0.2",
     "gulp-consolidate": "^0.2.0",
     "gulp-iconfont": "^10.0.3",
     "gulp-livereload": "^4.0.2",
@@ -20,7 +21,6 @@
   },
   "dependencies": {
     "autoprefixer": "^9.6.1",
-    "browser-sync": "^2.29.1",
     "page-flip": "^2.0.7",
     "sass": "^1.62.0"
   }
